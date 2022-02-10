@@ -25,6 +25,7 @@ contract ETHBank {
     function openAccount() payable external minDeposit{
         require(balances[msg.sender].exists == false, "Account with that address already exists");
         balances[msg.sender].exists = true;
+        balances[msg.sender].balance += msg.value;
     }
 
     //Function close the account (only if its empty)

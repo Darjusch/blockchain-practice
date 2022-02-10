@@ -12,7 +12,7 @@ contract ETHBank {
     }
 
     //Function where users can open an account (only if they dont have one already)
-    function openAccount() external payable {
+    function openAccount() external {
         require(balances[msg.sender].exists == false, "Account with that address already exists");
         balances[msg.sender].exists = true;
     }

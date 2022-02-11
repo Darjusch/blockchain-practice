@@ -3,16 +3,12 @@
 pragma solidity ^0.8.0;
 
 contract BasicBank {
-    mapping (address => bankAccount) public balances;
+    mapping (address => uint256) public totalAmount;
+    mapping (address => uint256) public etherBalance;
 
-    struct bankAccount  {
-        uint256 ethBalance;
-        uint256 tokenBalance;
-        bool exists;
-    }
 
     modifier accountExists {
-        require(balances[msg.sender].exists == true, "Account doesn't exist");
+        require(totalAmount[msg.sender] > 0, "Account doesn't exist");
         _;
     }
 
@@ -21,24 +17,25 @@ contract BasicBank {
         _;
     }
 
-    function openAccount() payable external minDeposit{
-        require(balances[msg.sender].exists == false, "Account with that address already exists");
-        balances[msg.sender].exists = true;
-        balances[msg.sender].ethBalance += msg.value;
+    modifier balanceNotZero {
+        require(totalAmount[msg.sender] == 0, "The balance of the account is not empty");
+        _;
     }
 
-    function closeAccount() external accountExists {
-        require(balances[msg.sender].ethBalance == 0, "Account has to be empty");
-        balances[msg.sender].exists = false;
+    function openAccount() external payable minDeposit balanceNotZero{
+        etherBalance[msg.sender] += msg.value;
+        totalAmount[msg.sender] += msg.value;
     }
 
     function deposit() external payable accountExists minDeposit{
-        balances[msg.sender].ethBalance += msg.value;
+        etherBalance[msg.sender] += msg.value;
+        totalAmount[msg.sender] += msg.value;
     }
 
     function withdraw(uint256 _amount) external accountExists {
-        require(balances[msg.sender].ethBalance >= _amount, "Not enough savings");
+        require(etherBalance[msg.sender] >= _amount, "Not enough savings");
         payable(msg.sender).transfer(_amount);
-        balances[msg.sender].ethBalance -= _amount;
+        etherBalance[msg.sender] -= _amount;
+        totalAmount[msg.sender] -= _amount;
     }
 }

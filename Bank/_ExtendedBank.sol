@@ -21,7 +21,7 @@ contract ExtendedBank is BasicBank{
 
     function withdrawToken(address _token, uint256 _amount) external minAmount(_amount) accountExists{
         require(balances[msg.sender][_token] >= _amount);
-        IERC20(_token).transferFrom(address(this), msg.sender, _amount);
+        IERC20(_token).transfer(msg.sender, _amount);
         balances[msg.sender][_token] -= _amount;
         totalAmount[msg.sender] -= _amount;
     }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
+// ORGINIAL AUTHOR: https://cryptomarketpool.com/how-to-swap-tokens-on-uniswap-using-a-smart-contract/
 
 //import the ERC20 interface
 

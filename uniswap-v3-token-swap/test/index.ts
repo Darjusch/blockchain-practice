@@ -2,11 +2,11 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
-import { SwapExamples } from "../typechain/SwapExamples";
+import { SwapExample } from "../typechain/SwapExample";
 
 describe('Swap', () => {
   let signer: SignerWithAddress, 
-    swaper: SwapExamples, 
+    swaper: SwapExample, 
     weth_contract: Contract, 
     dai_contract: Contract,
     usdc_contract: Contract,
@@ -22,7 +22,7 @@ describe('Swap', () => {
       const signers = await ethers.getSigners(); 
       signer = signers[0];
 
-      const SwapExample = await ethers.getContractFactory("SwapExamples");
+      const SwapExample = await ethers.getContractFactory("SwapExample");
       swaper = await SwapExample.deploy('0xE592427A0AEce92De3Edee1F18E0157C05861564');
       await swaper.deployed();
 
@@ -95,5 +95,28 @@ describe('Swap', () => {
 
     console.log('WETH Balance: ', num_weth)
     console.log('USDC Balance: ', num_usdc)
+  })
+  it('creates a limitOrder', async () => {
+    let tx = await usdc_contract.approve(swaper.address, ethers.utils.parseUnits('5000', 6))
+    await tx.wait()
+    console.log("GET NUMBER OF ORDERS before: %s", await swaper.num_orders())
+    expect(await swaper.num_orders()).to.equal(0)
+    await expect(
+      swaper.createLimitOrder(ethers.utils.parseUnits('5000', 6), ethers.utils.parseEther('1'), usdc_addr, weth_addr))
+      .to.emit(swaper, 'OrderCreated')
+      .withArgs(signer.address, ethers.utils.parseUnits('5000', 6), ethers.utils.parseEther('1'), usdc_addr, weth_addr)
+    console.log("GET NUMBER OF ORDERS after: %s", await swaper.num_orders())
+    expect(await swaper.num_orders()).to.equal(1)
+
+  })
+  it('executes a limitOrder', async () => {
+    let order = await swaper.getOrderByIndex(0)
+    expect(order.executed).to.be.false
+    await expect(
+      swaper.tryOrder())
+    .to.emit(swaper, 'OrderExecuted')
+    .withArgs(signer.address, ethers.utils.parseUnits('5000', 6), ethers.utils.parseEther('1'), usdc_addr, weth_addr)
+    order = await swaper.getOrderByIndex(0)
+    expect(order.executed).to.be.true
   })
 })

@@ -61,7 +61,7 @@ interface IUniswapV2Factory {
   function getPair(address token0, address token1) external returns (address);
 }
 
-// USDC ADDRESS FOR TESTING = 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
+// USDC ADDRESS FOR TESTING ON GOERLI = 0x07865c6E87B9F70255377e024ace6630C1Eaa37F
 
 contract tokenSwap {
     

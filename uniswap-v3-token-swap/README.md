@@ -1,15 +1,16 @@
-Original Author: https://github.com/gebob19/uniswap-v3-token-swap
+# Uniswap V3 Limit Order
 
-# Uniswap V3 Token Swap Example 
-
-This repo does the following with hardhat's mainnet-forking:
-- ETH -> WETH 
-- WETH -> DAI (using Uniswap)
+This contract allows you to create LimitOrders using uniswap v3.
+This contract shows you how to swap:
+- ETH to WETH
+- WETH to DAI
+- WETH to USDC
+- USDC to WETH
 
 Note: Setup `.env` file with `ALCHEMY_API` variable set 
 
 ### Info
 
 - run code with : `npx hardhat test`
-- code file: `test/index.ts`
-- contract from UniswapV3 examples: `contracts/Swap.sol`
+- code test file: `test/index.ts`
+- contract for LimitOrder and swaps: `contracts/swap.sol`

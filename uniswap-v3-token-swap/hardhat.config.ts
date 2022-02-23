@@ -30,7 +30,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       { version: "0.7.6" },
-      { version: "0.8.4" },
+      // { version: "0.8.4" },
     ],
   },
   networks: {
@@ -42,5 +42,17 @@ const config: HardhatUserConfig = {
     },
   },
 };
+
+// Specific compilerversion for sol file
+// solidity: {
+//   compilers: [...],
+//   overrides: {
+//     "contracts/Foo.sol": {
+//       version: "0.5.5",
+//       settings: { }
+//     }
+//   }
+// }
+
 
 export default config;

@@ -1,3 +1,13 @@
 node_modules
 package-lock.json
-/build
+secrets.json
+*build*
+#Hardhat files
+cache
+artifacts
+
+node_modules
+.env
+coverage
+coverage.json
+typechain

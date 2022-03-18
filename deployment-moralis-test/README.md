@@ -43,3 +43,12 @@ Now you can deploy the sample contract:
 ```bash
 npx hardhat run scripts/sample-script.js --network ropsten
 ```
+
+To verify that the contract is deployed copy the deployed contract hash from the terminal and use the respective scanner.
+
+[Polygon mumbai](https://mumbai.polygonscan.com/)
+[Ethereum Ropsten](https://ropsten.etherscan.io/)
+[Binance Testnet](https://testnet.bscscan.com/)
+[Arbitrum Testnet](https://testnet.arbiscan.io/)
+
+There are more just google.
